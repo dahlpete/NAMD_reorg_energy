@@ -1,0 +1,27 @@
+#!/bin/bash -l
+#SBATCH --job-name omcs_simulation
+#SBATCH --output omcs_simulation.err
+#SBATCH --partition pi_esi
+#SBATCH -A batista
+#SBATCH -N 1
+#SBATCH -n 12
+#SBATCH --no-requeue
+#SBATCH --export=ALL
+#SBATCH -t 24:00:00
+
+#cd $SLURM_SUBMIT_DIR
+
+#module load namd
+
+# the number of processors is 24 x number of nodes (-N #)
+#srun -n 504 namd2 ` nm_y51w_md_prod_run_r_x.conf > nm_y51w_md_prod_run_r_x.out
+
+
+#module load MPI/OpenMPI/2.1.1-intel15
+#module load Apps/NAMD/2.12-ibverbs
+
+#module load OpenMPI/2.1.2-GCC-6.4.0-2.28
+module load NAMD/2.13-multicore
+
+#time charmrun +p$SLURM_NTASKS ++mpiexec ++remote-shell mpirun $NAMD2 omcs_pair_interaction_ox.conf > omcs_h1ox_pair_interaction.log
+namd2 +p12 omcs_pair_interaction_red.conf > omcs_pair_interaction_red.log
